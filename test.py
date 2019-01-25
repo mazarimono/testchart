@@ -4,7 +4,8 @@ import dash_html_components as html
 import pandas as pd   
 import plotly.graph_objs as go  
 
-df = pd.read_csv('kyoto_hotel_cumsum.csv', index_col=0)
+df = pd.read_csv('tourist_data_csv.csv', index_col=0)
+df = df.dropna()
 
 app = dash.Dash(__name__)
 
@@ -15,13 +16,15 @@ app.layout = html.Div([
                 'data':[
                     go.Scatter(
                         x = df.index,  
-                        y = df['cumsum'],   
-                        name = '宿泊所累計',
+                        y = df['日帰り'],   
+                        name = '日帰り人数',
+                        stackgroup='one'
                     ),
-                    go.Bar(
+                    go.Scatter(
                         x = df.index,
-                        y = df['count'],
-                        name = '年間登録件数',
+                        y = df['宿泊'],
+                        name = '宿泊人数',
+                        stackgroup='one'
                     )  
                 ],
                 'layout':
